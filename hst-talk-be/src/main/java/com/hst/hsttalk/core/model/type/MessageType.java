@@ -1,4 +1,4 @@
-package com.hst.hsttalk.chatting.type;
+package com.hst.hsttalk.core.model.type;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -6,5 +6,6 @@ package com.hst.hsttalk.chatting.type;
 public enum MessageType {
 	JOIN,
 	LEAVE,
-	CHAT
+	CHAT,
+	SYSTEM_CHAT
 }
