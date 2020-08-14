@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" persistent max-width="290">
+  <v-dialog v-model="isShowing" persistent max-width="290">
     <v-card>
       <v-card-title class="headline">Info</v-card-title>
       <v-card-text>
@@ -7,21 +7,19 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-1" text @click="visible = false">No</v-btn>
-        <v-btn color="green darken-1" text @click="visible = false">Yes</v-btn>
+        <v-btn color="green darken-1" text @click="onClose();">No</v-btn>
+        <v-btn color="green darken-1" text @click="onOk();">Yes</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import { popup } from '@/mixins';
+
 export default {
-  props: {
-    visible: Boolean
-  }
+  mixins: [
+    popup
+  ]
 }
 </script>
-
-<style>
-
-</style>
