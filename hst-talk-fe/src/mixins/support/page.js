@@ -1,3 +1,5 @@
+import router from '@/modules/router';
+
 export default {
   data() {
     return {
@@ -13,6 +15,9 @@ export default {
     },
     closePopup(popupName) {
       this.ui[popupName].isShowing = false;
-    },    
+    },
+    movePage(page) {
+      router.push(page);
+    }    
   }
 }

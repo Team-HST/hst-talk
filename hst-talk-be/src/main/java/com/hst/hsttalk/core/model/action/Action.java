@@ -9,12 +9,14 @@ public interface Action {
 
 	/**
 	 * Define some job for Message
+	 *
 	 * @param roomManager the roomManager
 	 */
-	void doAction(RoomManager roomManager);
+	void doAction(RoomManager roomManager) throws Exception;
 
 	/**
 	 * get protocol
+	 *
 	 * @return
 	 */
 	Object getProtocol();

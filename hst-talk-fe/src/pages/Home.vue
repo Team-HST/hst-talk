@@ -4,7 +4,13 @@
       <v-row class="pa-0 fill-height" align="center" justify="center">
         <v-col class="pa-0 fill-height" cols="6">
           <v-row class="pa-0 ma-0 fill-height" align="center" justify="center">
-            <v-btn class="text-h4" color="light-blue" height="100%" tile block x-large dark @click="openPopup('createRoomPopup')">
+            <v-btn 
+              class="text-h4" 
+              color="light-blue" 
+              height="100%" 
+              tile block x-large dark 
+              @click="openPopup('createRoomPopup')"
+            >
               Create Room
             </v-btn>
           </v-row>
@@ -12,14 +18,21 @@
         <v-spacer></v-spacer>
         <v-col class="pa-0 ma-0 fill-height" cols="6">
           <v-row class="pa-0 ma-0 fill-height" align="center" justify="center">
-            <v-btn class="text-h4" color="teal darken-5" height="100%" tile block x-large dark @click="openPopup('createRoomPopup')">Enter Room</v-btn>
+            <v-btn 
+              class="text-h4" 
+              color="teal darken-5" 
+              height="100%" 
+              tile block x-large dark 
+              @click="openPopup('createRoomPopup')">
+              Enter Room
+            </v-btn>
           </v-row>
         </v-col>
       </v-row>
     </v-container>
     <create-room-popup 
       :isShowing="ui.createRoomPopup.isShowing" 
-      @ok="routes.push('chat-room');"
+      @ok="createChatRoom();"
       @close="closePopup('createRoomPopup')" 
     />
     <v-btn :color="connectionStatus.color" v-text="connectionStatus.text" @click="toggleServerConnection();"></v-btn>
@@ -72,8 +85,10 @@ export default {
         this.connectServer();
       }
     },
-    sendMessage(messageType) {
-        ws.send(messageType, 'hihi!!');
+    createChatRoom() {
+      ws.send('CREATE_ROOM');
+      console.log('방 생성성');
+      this.movePage('/chat-room/kskamscmLKMX1');
     }
   }
 }

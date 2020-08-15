@@ -9,8 +9,8 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/', component: Home },
-    { path: '/chat-room', component: ChatRoom }
+    { path: '/', name:'Home', component: Home },
+    { path: '/chat-room/:roomId', name: 'ChatRoom', component: ChatRoom, props: true }
   ]
 });
 

@@ -5,7 +5,7 @@ import com.hst.hsttalk.core.model.messaging.ChatMessage;
 import com.hst.hsttalk.core.room.RoomManager;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public class ChatAction extends AbstractAction {
 

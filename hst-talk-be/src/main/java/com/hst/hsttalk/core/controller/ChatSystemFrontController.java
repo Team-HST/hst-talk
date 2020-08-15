@@ -26,7 +26,7 @@ public class ChatSystemFrontController extends TextWebSocketHandler {
 			session.sendMessage(new TextMessage(ChatMessage.systemChat("Not readable message").toString()));
 			return;
 		}
-		actionDispatcher.dispatch(message);
+		actionDispatcher.dispatch(session, message);
 	}
 
 }

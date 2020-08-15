@@ -5,12 +5,10 @@ import com.hst.hsttalk.core.model.action.impl.ChatAction;
 import com.hst.hsttalk.core.model.action.impl.JoinAction;
 import com.hst.hsttalk.core.model.action.impl.LeaveAction;
 import com.hst.hsttalk.core.model.messaging.ChatMessage;
-import org.springframework.stereotype.Component;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
-@Component
 public class DefaultActionFactory implements ActionFactory {
 
 	@Override

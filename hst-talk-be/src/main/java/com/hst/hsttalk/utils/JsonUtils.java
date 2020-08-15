@@ -14,6 +14,7 @@ public class JsonUtils {
 
 	/**
 	 * Object to Json String
+	 *
 	 * @param o the object
 	 * @return json string
 	 */
@@ -22,14 +23,15 @@ public class JsonUtils {
 			return OM.writeValueAsString(o);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
+			return "json process fail.. " + e.getMessage();
 		}
-		return null;
 	}
 
 	/**
 	 * Json String to Object
+	 *
 	 * @param jsonString the json string
-	 * @param type the type for object
+	 * @param type       the type for object
 	 * @return object
 	 */
 	public static <T> T fromJson(String jsonString, Class<T> type) {
