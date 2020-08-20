@@ -7,7 +7,7 @@ import com.hst.hsttalk.core.model.messaging.ChatMessage;
  */
 public abstract class AbstractAction implements Action {
 
-	private Object protocol;
+	private final Object protocol;
 
 	public AbstractAction(ChatMessage chatMessage) {
 		this.protocol = chatMessage.getBody();

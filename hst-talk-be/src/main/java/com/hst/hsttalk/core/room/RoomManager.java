@@ -45,6 +45,16 @@ public class RoomManager {
 		return roomId;
 	}
 
+	/**
+	 * Get chat room
+	 *
+	 * @param roomId roomId
+	 * @return chat room
+	 */
+	public ChatRoom getRoom(String roomId) {
+		return chatRoomContainer.get(roomId);
+	}
+
 	private String generateRandomRoomId() {
 		return RandomUtils.randomString(ROOM_ID_LENGTH);
 	}

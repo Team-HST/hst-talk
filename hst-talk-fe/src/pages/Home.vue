@@ -32,7 +32,7 @@
     </v-container>
     <create-room-popup 
       :isShowing="ui.createRoomPopup.isShowing" 
-      @ok="createChatRoom();"
+      @ok="requestCreateChatRoom();"
       @close="closePopup('createRoomPopup')" 
     />
     <v-btn :color="connectionStatus.color" v-text="connectionStatus.text" @click="toggleServerConnection();"></v-btn>
@@ -41,6 +41,7 @@
 
 <script>
 import ws from '@/modules/websocket';
+import { CREATE_ROOM } from '@/modules/websocket/message-types';
 import CreateRoomPopup from '@/components/popup/CreateRoomPopup';
 import { page } from '@/mixins';
 
@@ -62,6 +63,9 @@ export default {
   created() {
     this.initializePopup(['createRoomPopup']);
     this.connectServer();
+    ws.on(CREATE_ROOM, (body) => {
+      this.movePage(`/chat-room/${body}`);
+    });
   },
   methods: {
     connectServer() {
@@ -69,10 +73,8 @@ export default {
         onopen: () => {
           this.connected = true;
         },
-        onmessage: (data) => {
-          console.log(data)
-        }
-      });      
+        enableLogging: true
+      });
     },
     disconnectServer() {
       ws.disconnect();
@@ -85,10 +87,8 @@ export default {
         this.connectServer();
       }
     },
-    createChatRoom() {
-      ws.send('CREATE_ROOM');
-      console.log('방 생성성');
-      this.movePage('/chat-room/kskamscmLKMX1');
+    requestCreateChatRoom() {
+      ws.send(CREATE_ROOM);
     }
   }
 }
