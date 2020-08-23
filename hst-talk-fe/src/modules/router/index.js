@@ -10,7 +10,9 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: '/', name:'Home', component: Home },
-    { path: '/chat-room/:roomId', name: 'ChatRoom', component: ChatRoom, props: true }
+    { path: '/chat-room/:roomId', name: 'ChatRoom', component: ChatRoom, props: (route) => ({
+      ...route.params
+    }) }
   ]
 });
 

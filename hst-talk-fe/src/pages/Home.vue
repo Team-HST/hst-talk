@@ -40,8 +40,9 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import ws from '@/modules/websocket';
-import { CREATE_ROOM } from '@/modules/websocket/message-types';
+import { CREATE_ROOM, INIT_USER_INFO } from '@/modules/websocket/message-types';
 import CreateRoomPopup from '@/components/popup/CreateRoomPopup';
 import { page } from '@/mixins';
 
@@ -52,6 +53,7 @@ export default {
   mixins: [ page ],
   data() {
     return {
+      userId: '',
       connected: false
     }
   },
@@ -63,18 +65,20 @@ export default {
   created() {
     this.initializePopup(['createRoomPopup']);
     this.connectServer();
-    ws.on(CREATE_ROOM, (body) => {
-      this.movePage(`/chat-room/${body}`);
+    ws.on(INIT_USER_INFO, (userId) => this.setUserId(userId));
+    ws.on(CREATE_ROOM, (roomId) => {
+      this.movePage(`/chat-room/${roomId}`);
     });
   },
   methods: {
+    ...mapMutations(['setUserId']),
     connectServer() {
       ws.connect('ws://localhost:8000/ws/chat', {
         onopen: () => {
           this.connected = true;
         },
         enableLogging: true
-      });
+      });      
     },
     disconnectServer() {
       ws.disconnect();
