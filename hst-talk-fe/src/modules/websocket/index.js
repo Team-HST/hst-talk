@@ -12,8 +12,8 @@ export default {
     _socket.onopen = onopen;
     _socket.onmessage = (message) => {
       const messageData = JSON.parse(message.data);
-      EventBus.$emit(messageData.messageType, messageData.body);
-      this.log(`Receive message type: ${messageData.messageType}, body: ${messageData.body}`);    
+      EventBus.$emit(messageData.messageType, messageData);
+      this.log(`Receive message type: ${messageData.messageType}, payload: ${messageData.payload}`);
     };
     this.log(`connected server on ${host}`);    
   },
@@ -21,11 +21,13 @@ export default {
     _socket.close();
     _socket = undefined;
   },
-  send(messageType, body) {
+  send(messageType, roomId, payload) {
     if (!_socket) {
       throw new Error('Connection not established!');
     }
-    _socket.send(JSON.stringify({messageType, body}));
+    let message = JSON.stringify({messageType, roomId, payload});
+    this.log(`Send message ${message}`)
+    _socket.send(message);
   },
   on(messageType, handler) {
     EventBus.$on(messageType, handler);

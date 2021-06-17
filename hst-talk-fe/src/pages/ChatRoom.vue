@@ -1,15 +1,18 @@
 <template>
   <v-app>
     <v-container>
-      <h1>ChatRoom!</h1>
-      <h2>RoomId: {{roomId}} <span>copy this!</span></h2>
-      <h3>Room Owner Id: {{ownerId}}</h3>
-      <h3>My Id: {{userId}}</h3>      
+      <h1>Chats!</h1>
+      <!-- debug 용 -->
+      <h5>RoomId: {{roomId}}</h5>
+      <h5>Room Owner Info: {{user}}</h5>
+      <h5>My Info: {{user}}</h5>      
+      <h6>참가자 json</h6>
       <template v-for="participant in participants">
         {{participant}}
       </template>
+      <!-- debug 용 -->
       <!-- ChatWindow -->
-      <chat-window :ownerId="ownerId" :userId="userId" :participants="participants"></chat-window>
+      <chat-window :owner="owner" :user="user" :participants="participants"></chat-window>
     </v-container>
   </v-app>
 </template>
@@ -34,19 +37,20 @@ export default {
   },
   data() {
     return {
-      ownerId: '',
+      owner: {},
       participants: []
     }
   },
   computed: {
-    ...mapState(['userId'])
+    ...mapState(['user'])
   },
   created() {
-    ws.send(GET_ROOM_MEMBER_LIST, this.roomId);
     ws.on(GET_ROOM_MEMBER_LIST, (body) => {
-      this.ownerId = body.owner;
-      this.participants.push({id: this.ownerId, isOwner: true});
+      console.log(body);
+      this.owner = body.owner;
+      this.participants = this.participants.concat(body.participants);
     });
+    ws.send(GET_ROOM_MEMBER_LIST, this.roomId);
   }
 }
 </script>

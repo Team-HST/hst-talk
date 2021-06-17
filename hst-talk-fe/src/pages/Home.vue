@@ -35,14 +35,13 @@
       @ok="requestCreateChatRoom();"
       @close="closePopup('createRoomPopup')" 
     />
-    <v-btn :color="connectionStatus.color" v-text="connectionStatus.text" @click="toggleServerConnection();"></v-btn>
   </v-app>  
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import ws from '@/modules/websocket';
-import { CREATE_ROOM, INIT_USER_INFO } from '@/modules/websocket/message-types';
+import { CREATE_ROOM, ENTER_ROOM } from '@/modules/websocket/message-types';
 import CreateRoomPopup from '@/components/popup/CreateRoomPopup';
 import { page } from '@/mixins';
 
@@ -58,38 +57,22 @@ export default {
     }
   },
   computed: {
-    connectionStatus() {
-      return this.connected ? { color: 'green', text: 'connected!' } : { color: 'red', text: 'disconnected..' }
-    }
+    ...mapState(['user'])
   },
   created() {
     this.initializePopup(['createRoomPopup']);
-    this.connectServer();
-    ws.on(INIT_USER_INFO, (userId) => this.setUserId(userId));
-    ws.on(CREATE_ROOM, (roomId) => {
-      this.movePage(`/chat-room/${roomId}`);
+    ws.on(CREATE_ROOM, (data) => {
+      this.movePage(`/chats/${data.roomId}`);
+    });
+    ws.on(ENTER_ROOM, (roomId) => {
+      this.movePage(`/chats/${roomId}`);
     });
   },
   methods: {
-    ...mapMutations(['setUserId']),
-    connectServer() {
-      ws.connect('ws://localhost:8000/ws/chat', {
-        onopen: () => {
-          this.connected = true;
-        },
-        enableLogging: true
-      });      
-    },
+    ...mapMutations(['setUserId']),    
     disconnectServer() {
       ws.disconnect();
       this.connected = false;
-    },
-    toggleServerConnection() {
-      if (this.connected) {
-        this.disconnectServer();
-      } else {
-        this.connectServer();
-      }
     },
     requestCreateChatRoom() {
       ws.send(CREATE_ROOM);

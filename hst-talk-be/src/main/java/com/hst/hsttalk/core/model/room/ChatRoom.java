@@ -1,8 +1,8 @@
 package com.hst.hsttalk.core.model.room;
 
+import com.hst.hsttalk.core.model.user.ChatUser;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +14,10 @@ import java.util.Set;
 @RequiredArgsConstructor(staticName = "of")
 public class ChatRoom {
 	private final String roomId;
-	private final WebSocketSession roomOwner;
-	private Set<WebSocketSession> participants = new HashSet<>();
+	private final ChatUser roomOwner;
+	private final Set<ChatUser> participants = new HashSet<>();
+
+	public boolean isOwner(String participantId) {
+		return roomOwner.getSession().getId().equals(participantId);
+	}
 }

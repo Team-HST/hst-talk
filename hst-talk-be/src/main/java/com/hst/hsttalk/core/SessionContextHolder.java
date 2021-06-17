@@ -17,7 +17,7 @@ public class SessionContextHolder {
 	 *
 	 * @param session current user session
 	 */
-	public static void setCurrentUser(WebSocketSession session) {
+	public static void setCurrentSession(WebSocketSession session) {
 		SESSION_CONTEXT.set(session);
 	}
 
@@ -26,7 +26,7 @@ public class SessionContextHolder {
 	 *
 	 * @return current user session
 	 */
-	public static WebSocketSession getCurrentUser() {
+	public static WebSocketSession getCurrentSession() {
 		return SESSION_CONTEXT.get();
 	}
 

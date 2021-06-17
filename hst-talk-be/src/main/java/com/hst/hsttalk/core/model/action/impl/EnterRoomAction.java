@@ -7,11 +7,10 @@ import org.springframework.web.socket.WebSocketSession;
 /**
  * @author dlgusrb0808@gmail.com
  */
-public class ChatAction implements Action {
+public class EnterRoomAction implements Action {
 
 	@Override
 	public void doAction(WebSocketSession session, MessageProtocol protocol) throws Exception {
-
+		
 	}
-	
 }

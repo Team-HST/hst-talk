@@ -3,7 +3,7 @@
     <v-card class="mx-auto" height="600">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
-          <b>Take me there</b>
+          <b>채팅방</b>
         </v-toolbar-title>
       </v-toolbar>
       <v-card-text>
@@ -45,7 +45,8 @@ export default {
     ChatItem
   },
   props: {
-    userId: String,
+    owner: Object,
+    user: Object,
     participants: Array
   },
   data() {
