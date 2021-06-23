@@ -1,8 +1,6 @@
 <template>
   <v-app>
     <v-container class="fill-height" fluid>
-      {{connected}}
-      {{user}}
       <v-row align="center" justify="center">
         <v-col cols="4"> 
           <v-text-field v-model="nickname" label="What your name?">

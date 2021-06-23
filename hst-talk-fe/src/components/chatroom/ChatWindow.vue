@@ -9,7 +9,7 @@
       <v-card-text>
         <v-row justify="center">
           <!-- 채팅창 -->
-          <v-col cols="8">
+          <v-col cols="9">
             <v-list shaped height="420">
               <chat-item v-for="(chat, index) in chats" :key="`${chat}-${index}`" :chat="chat" />
             </v-list>
@@ -23,10 +23,19 @@
           <v-spacer></v-spacer>          
           <!-- 참여자 목록 -->
           <v-col cols="3">
-            <v-list height="420">
-              <v-list-item v-for="(participant, index) in participants" :key="`${participant}-${index}`">
-                {{participant.id}} <small>{{participant.isOwner ? '방장' : ''}}</small>
-              </v-list-item>
+            <v-list dense height="420">
+              <v-list-item-group>
+                <v-list-item v-for="(participant, index) in participants" :key="`${participant}-${index}`">
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{participant.nickname}}
+                      <template v-if="participant.id === owner.id">
+                        <small> (방장)</small>
+                      </template>
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
             </v-list>
           </v-col>          
         </v-row>
@@ -47,16 +56,16 @@ export default {
   props: {
     owner: Object,
     user: Object,
-    participants: Array
+    participants: Array,
+    chats: Array
   },
   data() {
     return {
-      chatMessage: '',
-      chats: []
+      chatMessage: ''
     }
   },
   created() {
-    this.addChat('SYSTEM', `${this.userId}님이 입장하셨습니다.`);
+    this.addChat('SYSTEM', `${this.user.nickname}님이 입장하셨습니다.`);
   },
   methods: {
     addChat(sender, message) {

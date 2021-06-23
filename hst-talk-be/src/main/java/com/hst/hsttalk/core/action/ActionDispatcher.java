@@ -1,5 +1,6 @@
 package com.hst.hsttalk.core.action;
 
+import com.hst.hsttalk.core.SessionContextHolder;
 import com.hst.hsttalk.core.action.factory.ActionFactory;
 import com.hst.hsttalk.core.model.action.Action;
 import com.hst.hsttalk.core.model.messaging.MessageProtocol;
@@ -22,6 +23,7 @@ public class ActionDispatcher {
 	 * @param protocol message
 	 */
 	public void dispatch(WebSocketSession session, MessageProtocol protocol) throws Exception {
+		SessionContextHolder.setCurrentSession(session);
 		Action action = actionFactory.createAction(protocol);
 		if (action == null) {
 			throw new IllegalArgumentException("Action creation fail");
