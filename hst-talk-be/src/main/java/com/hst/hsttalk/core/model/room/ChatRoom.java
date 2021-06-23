@@ -20,4 +20,8 @@ public class ChatRoom {
 	public boolean isOwner(String participantId) {
 		return roomOwner.getSession().getId().equals(participantId);
 	}
+
+	public void enter(ChatUser user) {
+		participants.add(user);
+	}
 }
