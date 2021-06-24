@@ -106,6 +106,7 @@ section {
   display: block;
 }
 body {
+  font-family: 'Open Sans', sans-serif;
   line-height: 1;
   width: 100vw;
   height: 100vh;
