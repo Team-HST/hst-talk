@@ -1,0 +1,86 @@
+.wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.chat_info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 35vh;
+  height: 100%;
+  z-index: 2;
+  left: -400px;
+  transition: 0.5s ease-in-out;
+  border-right: 20px solid rgb(243, 243, 243);
+}
+
+.on {
+  left: 0px;
+}
+
+.chat_box {
+  position: relative;
+  background-color: whitesmoke;
+}
+
+.chat_info_header {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 5%;
+  margin-bottom: 20px;
+}
+
+.chat_info_header h2 {
+  padding: 10px;
+  font-size: 3vh;
+  font-weight: bold;
+}
+.chat_info_header span {
+  font-size: 3vh;
+  font-weight: 500;
+}
+
+.chat_info_body {
+  height: 80%;
+  overflow: scroll;
+}
+
+.chat_info_body div {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 8%;
+  font-size: 2vh;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-bottom: 1px dotted rgb(177, 177, 177);
+}
+
+.chat_info_footer {
+  height: 15%;
+}
+
+.chat_info_footer h3 {
+  margin-left: 10px;
+  font-size: 2.2vh;
+  font-weight: bold;
+}
+
+.chat_info_footer div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.8vh;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.chat_info_footer_copy {
+  margin-left: 5px;
+  cursor: pointer;
+}
