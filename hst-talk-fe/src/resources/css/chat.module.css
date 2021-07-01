@@ -39,59 +39,47 @@
   margin: 10px;
 }
 
-.chat_info {
-  display: flex;
-  flex-direction: column;
-  width: 45vh;
-  height: 100%;
-  z-index: 2;
-  transition: 0.5s ease-in-out;
-  border-right: 5px solid rgb(243, 243, 243);
-  color: rgb(197, 195, 195);
-  padding: 5px;
+@media screen and (min-width: 500px) {
+  .chat_info {
+    display: flex;
+    flex-direction: column;
+    width: 45vh;
+    height: 100%;
+    z-index: 2;
+    border-right: 5px solid rgb(243, 243, 243);
+    color: rgb(197, 195, 195);
+    padding: 5px;
+    display: none;
+  }
+
+  .chat_info.on {
+    display: block;
+  }
 }
 
-.chat_info.on {
-  /* width: 0px; */
-  /* display: none; */
-}
+@media screen and (max-width: 500px) {
+  .chat_info {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 45vh;
+    height: 100%;
+    z-index: 2;
+    left: -400px;
+    transition: 0.5s ease-in-out;
+    border-right: 5px solid rgb(243, 243, 243);
+    color: rgb(197, 195, 195);
+    padding: 5px;
+    background-color: #30343d;
+  }
 
-.chat_info_body {
-  height: 85%;
-  overflow: scroll;
-}
-
-.chat_info_user {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 8%;
-  font-size: 1.8vh;
-  margin-left: 20px;
-  margin-right: 20px;
-  border-bottom: 1px dotted rgb(177, 177, 177);
-}
-
-.chat_info_user_nm {
-  width: 30vh;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.chat_info_user_me {
-  width: 30px;
-  height: 20px;
-  border-radius: 30%;
-  background-color: white;
-  color: black;
-  text-align: center;
-  font-weight: bold;
-  margin-left: 5px;
+  .chat_info.on {
+    left: 0px;
+  }
 }
 
 .chat_info_footer {
-  height: 15%;
+  height: 18vh;
 }
 
 .chat_info_footer h3 {
@@ -118,6 +106,8 @@
 .chat_box {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   background-color: white;
@@ -125,5 +115,35 @@
 }
 
 .chat_box_body {
-  height: 100%;
+  width: 80%;
+  height: 80vh;
+}
+
+@media screen and (max-width: 500px) {
+  .chat_box_body {
+    width: 95%;
+    height: 80vh;
+  }
+}
+
+.chat_box_input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20vh;
+}
+
+.chat_box_input input {
+  width: 80%;
+  height: 5vh;
+  font-size: 2vh;
+  border: 1px solid #30343d;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+.chat_box_input img {
+  width: 35px;
+  margin-left: 5px;
 }

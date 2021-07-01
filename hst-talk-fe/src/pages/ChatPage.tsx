@@ -1,4 +1,13 @@
+import ChatUserList from 'components/chatUserList';
+import ChatMessage from 'components/chatMessage';
 import styles from 'resources/css/chat.module.css';
+import sendIcon from 'resources/images/send.png';
+
+const chatMessageDummy = [
+  { type: 'center' },
+  { type: 'left', name: 'jemmy', message: 'hello my name' },
+  { type: 'right', name: 'sancho', message: 'ohh hi' },
+];
 
 const ChatPage = () => {
   return (
@@ -13,15 +22,7 @@ const ChatPage = () => {
       </div>
       <div className={styles.chat_body}>
         <div className={`${styles.chat_info} ${styles.on}`}>
-          <div className={styles.chat_info_body}>
-            <div className={styles.chat_info_user}>
-              <div className={styles.chat_info_user_nm}>@ 김영후이dwdwdwdwdwdw</div>
-              <div className={styles.chat_info_user_me}>me</div>
-            </div>
-            <div className={styles.chat_info_user}>
-              <div className={styles.chat_info_user_nm}>@ 이현규</div>
-            </div>
-          </div>
+          <ChatUserList />
           <div className={styles.chat_info_footer}>
             <h3>
               Room Code{' '}
@@ -31,7 +32,15 @@ const ChatPage = () => {
           </div>
         </div>
         <div className={styles.chat_box}>
-          <div className={styles.chat_box_body}>dwdwdw</div>
+          <div className={styles.chat_box_body}>
+            {chatMessageDummy.map((message) => (
+              <ChatMessage chat={message} />
+            ))}
+          </div>
+          <div className={styles.chat_box_input}>
+            <input type="text" placeholder="Ender Message" />
+            <img src={sendIcon} alt="전송(send)" />
+          </div>
         </div>
       </div>
     </div>
