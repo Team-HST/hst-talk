@@ -6,6 +6,7 @@ import com.hst.hsttalk.utils.RandomUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -32,7 +33,7 @@ public class InMemoryRoomManager implements RoomManager {
 
 	@Override
 	public ChatRoom getRoom(String roomId) {
-		return this.chatRoomContainer.get(roomId);
+		return Optional.ofNullable(this.chatRoomContainer.get(roomId)).orElseThrow(() -> new IllegalArgumentException(String.format("Can not find room. id: %s", roomId)));
 	}
 
 	private String generateRandomRoomId() {

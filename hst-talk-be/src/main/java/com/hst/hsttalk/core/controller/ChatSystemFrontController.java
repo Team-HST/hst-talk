@@ -25,10 +25,15 @@ public class ChatSystemFrontController extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
 		MessageProtocol message = MessageProtocol.from(textMessage.getPayload());
 		if (message == null) {
-			session.sendMessage(new TextMessage(MessageProtocol.systemChat("Not readable message").toString()));
+			session.sendMessage(MessageProtocol.systemChat("Not readable message").toTextMessage());
 			return;
 		}
-		actionDispatcher.dispatch(session, message);
+		try {
+			actionDispatcher.dispatch(session, message);
+		} catch (Exception e) {
+			log.error(String.format("Fail to dispatch action. protocol: %s", message), e);
+			session.sendMessage(MessageProtocol.systemChat(String.format("%s: %s", e.getClass(), e.getMessage())).toTextMessage());
+		}
 	}
 
 }

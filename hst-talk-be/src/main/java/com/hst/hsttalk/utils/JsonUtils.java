@@ -35,6 +35,7 @@ public class JsonUtils {
 	 * @return object
 	 */
 	public static <T> T fromJson(String jsonString, Class<T> type) {
+
 		try {
 			return OM.readValue(jsonString, type);
 		} catch (JsonProcessingException e) {

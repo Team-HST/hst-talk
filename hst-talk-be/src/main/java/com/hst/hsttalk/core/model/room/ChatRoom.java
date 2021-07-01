@@ -24,4 +24,8 @@ public class ChatRoom {
 	public void enter(ChatUser user) {
 		participants.add(user);
 	}
+
+	public Set<ChatUser> getParticipants() {
+		return participants;
+	}
 }

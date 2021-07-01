@@ -3,12 +3,14 @@ package com.hst.hsttalk.core.model.messaging;
 import com.hst.hsttalk.core.model.type.MessageType;
 import com.hst.hsttalk.utils.JsonUtils;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.web.socket.TextMessage;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
 @Getter
+@ToString
 public class MessageProtocol {
 	private MessageType messageType;
 	private String roomId;
