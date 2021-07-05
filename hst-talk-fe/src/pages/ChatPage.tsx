@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ChatUserList from 'components/chatUserList';
 import ChatMessage from 'components/chatMessage';
 import styles from 'resources/css/chat.module.css';
@@ -10,18 +11,23 @@ const chatMessageDummy = [
 ];
 
 const ChatPage = () => {
+  const [isChatInfo, setIsChatInfo] = useState(true);
+  const onClickChatInfo = () => {
+    setIsChatInfo(!isChatInfo);
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.chat_header}>
         <h2>
-          HST <span>Talk</span>
+          <i className="fas fa-align-justify" onClick={onClickChatInfo}></i> HST <span>Talk</span>
         </h2>
         <div className={styles.chat_end}>
           <i className="fas fa-door-open fa-lg"></i> Close
         </div>
       </div>
       <div className={styles.chat_body}>
-        <div className={`${styles.chat_info} ${styles.on}`}>
+        <div className={`${styles.chat_info} ${isChatInfo ? styles.on : ''}`}>
           <ChatUserList />
           <div className={styles.chat_info_footer}>
             <h3>

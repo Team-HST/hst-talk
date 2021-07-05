@@ -1,11 +1,14 @@
 import { BrowserRouter } from 'react-router-dom';
+import SocketProvider from 'provider/socketProvider';
 import App from 'components/App';
 
 const Root = () => {
   return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <SocketProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </SocketProvider>
   );
 };
 

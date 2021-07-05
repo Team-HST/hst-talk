@@ -35,6 +35,10 @@
   font-weight: 500;
 }
 
+.chat_header i {
+  cursor: pointer;
+}
+
 .chat_end {
   margin: 10px;
 }
@@ -71,6 +75,7 @@
     color: rgb(197, 195, 195);
     padding: 5px;
     background-color: #30343d;
+    opacity: 0.9;
   }
 
   .chat_info.on {
