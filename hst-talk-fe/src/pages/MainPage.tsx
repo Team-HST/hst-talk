@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import useSocket from 'hooks/useSocket';
+import EnderModal from 'components/enderModal';
 import styles from 'resources/css/home.module.css';
 
 const MainPage = () => {
@@ -23,6 +24,7 @@ const MainPage = () => {
         Create Room
       </div>
       <div className={styles.enter_room}>Enter Room</div>
+      <EnderModal />
     </div>
   );
 };
