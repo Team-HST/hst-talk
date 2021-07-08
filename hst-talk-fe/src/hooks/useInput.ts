@@ -1,6 +1,6 @@
 import { useState, useCallback, FormEvent } from 'react';
 
-const useInput = <T,>(
+const useInput = <T>(
   init: T
 ): [T, (e: FormEvent<HTMLInputElement>) => void, (value: T) => void] => {
   const [value, setValue] = useState<T>(init);

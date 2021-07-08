@@ -25,6 +25,7 @@
   font-size: 3.5vh;
   font-weight: bold;
   color: white;
+  cursor: pointer;
 }
 
 .enter_room {
@@ -36,4 +37,5 @@
   font-size: 3.5vh;
   color: white;
   font-weight: bold;
+  cursor: pointer;
 }
