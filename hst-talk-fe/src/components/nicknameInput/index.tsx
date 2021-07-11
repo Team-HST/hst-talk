@@ -11,13 +11,12 @@ const NicknameInput = () => {
   const onKeypress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       // 닉네임전달 및 소켓 연결 처리
-      socket.send(`{ "messageType": "INIT_USER_INFO", "roomId": null, "payload": "${text}" }`);
+      socket.send(`{ "messageType": "ENTER_ROOM", "roomId": null, "payload": "${text}" }`);
     }
   };
 
-  socket.onmessage = (event: MessageEvent<any>) => {
-    const { payload } = event.data;
-    sessionStorage.setItem('talkName', payload);
+  socket.onmessage = () => {
+    sessionStorage.setItem('talkName', text);
 
     history.push('/main');
   };

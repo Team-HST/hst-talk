@@ -1,18 +1,17 @@
 package com.hst.hsttalk.core.model.action.impl;
 
+import com.hst.hsttalk.core.SessionContextHolder;
 import com.hst.hsttalk.core.model.action.Action;
 import com.hst.hsttalk.core.model.messaging.MessageProtocol;
+import com.hst.hsttalk.core.model.protocol.response.RoomMemberListResponse;
 import com.hst.hsttalk.core.model.room.ChatRoom;
 import com.hst.hsttalk.core.model.roommanager.RoomManager;
 import com.hst.hsttalk.core.model.roommanager.RoomManagerAware;
 import com.hst.hsttalk.core.model.type.MessageType;
-import com.hst.hsttalk.core.model.user.ChatUser;
 import com.hst.hsttalk.core.model.user.ConnectedUserPool;
 import com.hst.hsttalk.core.model.user.ConnectedUserPoolAware;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -25,13 +24,14 @@ public class GetRoomMemberListAction implements Action, RoomManagerAware, Connec
 
 	@Override
 	public void doAction(WebSocketSession session, MessageProtocol protocol) throws Exception {
+		String id = SessionContextHolder.getCurrentSession().getId();
 		String roomId = protocol.getRoomId();
 		ChatRoom chatRoom = roomManager.getRoom(roomId);
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("owner", chatRoom.getRoomOwner().toResponse());
-		payload.put("participants",
-				chatRoom.getParticipants().stream().map(ChatUser::toResponse).collect(Collectors.toList()));
-		session.sendMessage(MessageProtocol.of(MessageType.GET_ROOM_MEMBER_LIST, roomId, payload).toTextMessage());
+
+		RoomMemberListResponse response = RoomMemberListResponse.of(chatRoom.getRoomOwner().toResponse(),
+				chatRoom.getParticipants().stream().map(e -> RoomMemberListResponse.RoomMemberResponse.of(id, e)).collect(Collectors.toList()));
+
+		session.sendMessage(MessageProtocol.of(MessageType.GET_ROOM_MEMBER_LIST, roomId, response).toTextMessage());
 	}
 
 	@Override
