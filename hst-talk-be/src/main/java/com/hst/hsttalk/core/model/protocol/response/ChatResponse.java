@@ -19,4 +19,5 @@ public class ChatResponse {
 	private final String senderNickname;
 	private final String message;
 	private final String sendAt = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+	private final boolean me;
 }
