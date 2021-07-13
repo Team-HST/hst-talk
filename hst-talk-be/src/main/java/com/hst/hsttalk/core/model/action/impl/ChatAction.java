@@ -11,7 +11,6 @@ import com.hst.hsttalk.core.model.type.MessageType;
 import com.hst.hsttalk.core.model.user.ChatUser;
 import com.hst.hsttalk.core.model.user.ConnectedUserPool;
 import com.hst.hsttalk.core.model.user.ConnectedUserPoolAware;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
@@ -26,10 +25,10 @@ public class ChatAction implements Action, RoomManagerAware, ConnectedUserPoolAw
 	public void doAction(WebSocketSession session, MessageProtocol protocol) throws Exception {
 		ChatUser sender = pool.get(SessionContextHolder.getCurrentSession().getId());
 		ChatRoom room = roomManager.getRoom(protocol.getRoomId());
-		TextMessage responseProtocol = MessageProtocol.of(MessageType.CHAT, protocol.getRoomId(),
-				ChatResponse.of(sender.getNickname(), protocol.getPayload().toString())).toTextMessage();
 		for (ChatUser user : room.getParticipants()) {
-			user.getSession().sendMessage(responseProtocol);
+			user.getSession().sendMessage(MessageProtocol.of(MessageType.CHAT, protocol.getRoomId(),
+					ChatResponse.of(sender.getNickname(), protocol.getPayload().toString(),
+							session.getId().equals(user.getSession().getId()))).toTextMessage());
 		}
 	}
 

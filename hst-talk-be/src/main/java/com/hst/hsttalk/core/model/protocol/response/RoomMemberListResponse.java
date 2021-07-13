@@ -13,8 +13,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(staticName = "of")
 public class RoomMemberListResponse {
-	private ChatUserResponse owner;
-	private List<RoomMemberResponse> participants;
+	private final ChatUserResponse owner;
+	private final List<RoomMemberResponse> participants;
 
 	@Getter
 	public static class RoomMemberResponse {
