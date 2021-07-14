@@ -37,9 +37,12 @@ public class EnterRoomAction implements Action, RoomManagerAware, ConnectedUserP
 				room.getParticipants().stream().map(ChatUser::toResponse).collect(Collectors.toList())).toTextMessage());
 
 		// 해당 방에 노티
-		TextMessage responseProtocol = MessageProtocol.of(MessageType.CHAT, protocol.getRoomId(), ChatResponse.of(
-				"SYSTEM", String.format("%s님이 입장하셨습니다^^", user.getNickname()))).toTextMessage();
 		for (ChatUser participant : room.getParticipants()) {
+			String chatMessage = String.format("%s님이 입장하셨습니다^^", user.getNickname());
+			ChatResponse response = ChatResponse.of("SYSTEM", chatMessage,
+					participant.getSession().getId().equals(session.getId()));
+			TextMessage responseProtocol =
+					MessageProtocol.of(MessageType.CHAT, protocol.getRoomId(), response).toTextMessage();
 			participant.getSession().sendMessage(responseProtocol);
 		}
 	}
