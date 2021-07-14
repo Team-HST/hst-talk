@@ -9,7 +9,7 @@ import com.hst.hsttalk.core.model.action.impl.*;
 public enum MessageType {
 	INIT_USER_INFO(InitUserInfoAction.class),
 	CHAT(ChatAction.class),
-	SYSTEM_CHAT(null),
+	SYSTEM_ERROR(null),
 	CREATE_ROOM(CreateRoomAction.class),
 	ENTER_ROOM(EnterRoomAction.class),
 	GET_ROOM_MEMBER_LIST(GetRoomMemberListAction.class);
