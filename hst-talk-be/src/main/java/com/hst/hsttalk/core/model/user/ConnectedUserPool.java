@@ -18,6 +18,10 @@ public class ConnectedUserPool {
 		this.pool.put(session.getId(), ChatUser.of(nickname, session));
 	}
 
+	public void remove(WebSocketSession session) {
+		this.pool.remove(session.getId());
+	}
+
 	public ChatUser get(String sessionId) {
 		return this.pool.get(sessionId);
 	}

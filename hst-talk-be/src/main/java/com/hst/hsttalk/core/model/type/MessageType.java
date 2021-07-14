@@ -12,7 +12,8 @@ public enum MessageType {
 	SYSTEM_ERROR(null),
 	CREATE_ROOM(CreateRoomAction.class),
 	ENTER_ROOM(EnterRoomAction.class),
-	GET_ROOM_MEMBER_LIST(GetRoomMemberListAction.class);
+	GET_ROOM_MEMBER_LIST(GetRoomMemberListAction.class),
+	LEAVE_ROOM(LeaveRoomAction.class);
 
 	private final Class<? extends Action> actionClass;
 

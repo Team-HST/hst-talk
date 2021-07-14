@@ -14,8 +14,8 @@ public class ChatUser {
 	private final String nickname;
 	private final WebSocketSession session;
 
-	public ChatUserResponse toResponse() {
-		return ChatUserResponse.builder().id(session.getId()).nickname(nickname).build();
+	public ChatUserResponse toResponse(String ownerId) {
+		return ChatUserResponse.builder().id(session.getId()).nickname(nickname).owner(ownerId.equals(session.getId())).build();
 	}
 
 	@Getter
@@ -23,5 +23,6 @@ public class ChatUser {
 	public static class ChatUserResponse {
 		private final String id;
 		private final String nickname;
+		private final boolean owner;
 	}
 }
