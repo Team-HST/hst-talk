@@ -20,8 +20,8 @@ public class MessageProtocol {
 		return new TextMessage(JsonUtils.toJson(this));
 	}
 
-	public static MessageProtocol systemChat(Object body) {
-		return of(MessageType.SYSTEM_CHAT, null, body);
+	public static MessageProtocol errorResponse(Object body) {
+		return of(MessageType.SYSTEM_ERROR, null, body);
 	}
 
 	public static MessageProtocol fromType(MessageType messageType) {
