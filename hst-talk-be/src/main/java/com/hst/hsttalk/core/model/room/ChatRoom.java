@@ -25,6 +25,10 @@ public class ChatRoom {
 		participants.add(user);
 	}
 
+	public void leave(ChatUser user) {
+		participants.remove(user);
+	}
+
 	public Set<ChatUser> getParticipants() {
 		return participants;
 	}

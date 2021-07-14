@@ -27,9 +27,10 @@ public class GetRoomMemberListAction implements Action, RoomManagerAware, Connec
 		String id = SessionContextHolder.getCurrentSession().getId();
 		String roomId = protocol.getRoomId();
 		ChatRoom chatRoom = roomManager.getRoom(roomId);
+		String roomOwnerId = chatRoom.getRoomOwner().getSession().getId();
 
-		RoomMemberListResponse response = RoomMemberListResponse.of(chatRoom.getRoomOwner().toResponse(),
-				chatRoom.getParticipants().stream().map(e -> RoomMemberListResponse.RoomMemberResponse.of(id, e)).collect(Collectors.toList()));
+		RoomMemberListResponse response =
+				RoomMemberListResponse.of(chatRoom.getParticipants().stream().map(e -> e.toResponse(roomOwnerId)).collect(Collectors.toList()));
 
 		session.sendMessage(MessageProtocol.of(MessageType.GET_ROOM_MEMBER_LIST, roomId, response).toTextMessage());
 	}
