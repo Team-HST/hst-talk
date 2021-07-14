@@ -4,11 +4,11 @@ import App from 'components/App';
 
 const Root = () => {
   return (
-    <BrowserRouter>
-      <SocketProvider>
+    <SocketProvider>
+      <BrowserRouter>
         <App />
-      </SocketProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </SocketProvider>
   );
 };
 

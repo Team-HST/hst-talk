@@ -4,17 +4,23 @@ import styles from './style.module.css';
 interface EnterModalProps {
   isDisplay: boolean;
   enterRoom: (roomId: string) => void;
-  onClose: () => void;
+  closeEnterRoom: () => void;
 }
 
-const EnterModal = ({ isDisplay, enterRoom, onClose }: EnterModalProps) => {
-  const [text, setText] = useInput<string>('');
+const EnterModal = ({ isDisplay, enterRoom, closeEnterRoom }: EnterModalProps) => {
+  const [text, setText, changeText] = useInput<string>('');
 
   const onKeypress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       enterRoom(text);
     }
   };
+
+  const onClose = () => {
+    changeText('');
+    closeEnterRoom();
+  };
+
   return (
     <div className={`${styles.backgrond} ${isDisplay ? styles.on : ''}`}>
       <div className={styles.wrapper}>

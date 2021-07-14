@@ -51,8 +51,18 @@
 
 ##### Request
 
-{ "messageType": "CHAT", "roomId": "pKWhFEpZ", "payload": "안녕하세요^^" }
+{"messageType": "CHAT", "roomId": "pKWhFEpZ", "payload": "안녕하세요^^"}
 
 ##### Response
 
-{"messageType":"CHAT","roomId":"fygBeP1y","payload":{"senderNickname":"SYSTEM","message":"사용자 닉네임님이 입장하셨습니다^^","sendAt":"2021-07-02T02:34:17.424"}}
+{"messageType":"CHAT", "roomId": "fygBeP1y" , "payload": {"senderNickname":" SYSTEM", "message": "사용자 닉네임님이 입장하셨습니다^^", "sendAt": "2021-07-02T02:34:17.424"}}
+
+### 5. 방 참가자 목록 조회
+
+#### Request
+
+{ "messageType": "GET_ROOM_MEMBER_LIST", "roomId": "룸 ID", "payload": null }
+
+#### Response
+
+{"messageType": "GET_ROOM_MEMBER_LIST", "roomId": "해당 룸 Id", "payload": { "owner": { "id": "asdasd", "nickname": "방장ㅋ" }, "participants": [ { "me": true, "userInfo": { "id": "mmsd", "nickname": "유저유저" } } ] }}

@@ -1,7 +1,14 @@
+import { useEffect } from 'react';
 import NicknameInput from 'components/nicknameInput';
 import styles from 'resources/css/main.module.css';
 
 const HomePage = () => {
+  useEffect(() => {
+    sessionStorage.removeItem('talkName');
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('roomId');
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>

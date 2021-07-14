@@ -2,9 +2,9 @@ import { useContext } from 'react';
 import { SocketContext } from 'provider/socketProvider';
 
 const useSocket = () => {
-  const socket = useContext(SocketContext);
+  const socketContext = useContext(SocketContext);
 
-  return socket;
+  return socketContext;
 };
 
 export default useSocket;

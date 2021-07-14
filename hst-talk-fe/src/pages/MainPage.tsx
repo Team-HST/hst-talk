@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSocket from 'hooks/useSocket';
+import SocketConstants from 'constants/SocketConstants';
 import EnderModal from 'components/enderModal';
 import styles from 'resources/css/home.module.css';
 
 const MainPage = () => {
   const [isCreateRoom, setIsCreateRoom] = useState<boolean>(false);
-  const socket = useSocket();
+  const { socket } = useSocket();
   const history = useHistory();
 
   const onClickCreateRoom = () => {
+    console.log(`{"messageType": "${SocketConstants.Message.CREATE_ROOM}"}`);
+
     socket.send(`{ "messageType": "CREATE_ROOM" }`);
   };
 
@@ -21,17 +24,25 @@ const MainPage = () => {
     setIsCreateRoom(false);
   };
 
-  const enterRoom = (roomId: String) => {
+  const enterRoom = (roomId: string) => {
     // 채팅방 입장
-    socket.send(`{ "messageType": "ENTER_ROOM", "roomId": ${roomId}}`);
+    socket.send(`{ "messageType": "${SocketConstants.Message.ENTER_ROOM}", "roomId": "${roomId}"}`);
+    sessionStorage.setItem('roomId', roomId);
   };
 
   socket.onmessage = (event: MessageEvent<any>) => {
-    const { messageType, roomId, payload } = JSON.parse(event.data);
+    const { messageType, roomId } = JSON.parse(event.data);
 
-    console.log(messageType, roomId, payload);
+    switch (messageType) {
+      case SocketConstants.Message.SYSTEM_ERROR:
+        alert('생성되지 않은 방 코드입니다.');
+        sessionStorage.removeItem('roomId');
+        return;
+      case SocketConstants.Message.CREATE_ROOM:
+        sessionStorage.setItem('roomId', roomId);
+        break;
+    }
 
-    // sessionStorage.setItem('roomId', roomId);
     history.push('chatting');
   };
 
@@ -43,7 +54,11 @@ const MainPage = () => {
       <div className={styles.enter_room} onClick={onClickEnterRoom}>
         Enter Room
       </div>
-      <EnderModal isDisplay={isCreateRoom} enterRoom={enterRoom} onClose={onCloseEnterRoom} />
+      <EnderModal
+        isDisplay={isCreateRoom}
+        enterRoom={enterRoom}
+        closeEnterRoom={onCloseEnterRoom}
+      />
     </div>
   );
 };

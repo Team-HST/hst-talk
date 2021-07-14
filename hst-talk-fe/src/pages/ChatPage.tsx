@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import useSocket from 'hooks/useSocket';
+import { UserInfo } from 'types/chat';
+
 import ChatUserList from 'components/chatUserList';
 import ChatMessage from 'components/chatMessage';
-import useSocket from 'hooks/useSocket';
+import SocketConstants from 'constants/SocketConstants';
+import ToastAlarm from 'components/toastAlarm';
 import styles from 'resources/css/chat.module.css';
 import sendIcon from 'resources/images/send.png';
 
@@ -12,20 +16,17 @@ const chatMessageDummy = [
   { type: 'right', name: 'sancho', message: 'ohh hi' },
 ];
 
+// TODO: 뒤로가기 시 처리
 const ChatPage = () => {
-  const socket = useSocket();
+  const { socket, isConnection } = useSocket();
   const history = useHistory();
   const [isChatInfo, setIsChatInfo] = useState<boolean>(true);
   const [roomCode, setRoomCode] = useState<string>('');
+  const [userList, setUserList] = useState<UserInfo[]>([]);
+  const [isToast, setIsToast] = useState<boolean>(false);
+
   const onClickChatInfo = () => {
     setIsChatInfo(!isChatInfo);
-  };
-
-  socket.onmessage = (event: MessageEvent<any>) => {
-    const { messageType, roomId, payload } = JSON.parse(event.data);
-
-    switch (messageType) {
-    }
   };
 
   const onClickClose = () => {
@@ -33,14 +34,49 @@ const ChatPage = () => {
     history.push('/main');
   };
 
+  // 룸 코드 클립보드 복사
+  const onClickClipBoard = () => {
+    navigator.clipboard.writeText(roomCode);
+    setIsToast(true);
+  };
+
+  const closeToast = () => {
+    setIsToast(false);
+  };
+
+  socket.onmessage = (event: MessageEvent<any>) => {
+    const { messageType, roomId, payload } = JSON.parse(event.data);
+
+    console.log('Type: ', messageType, 'Payload: ', payload);
+    switch (messageType) {
+      case SocketConstants.Message.GET_ROOM_MEMBER_LIST:
+        console.log('get Room');
+        setUserList(payload.participants);
+        break;
+      case SocketConstants.Message.SYSTEM_ERROR:
+        if (payload.indexOf('Can not find room') > -1) {
+          alert('이미 종료 된 방 정보입니다.');
+          history.push('/main');
+        }
+        break;
+    }
+  };
+
   useEffect(() => {
     const roomId = sessionStorage.getItem('roomId');
+
     if (roomId) {
       setRoomCode(roomId);
+
+      if (socket.readyState === 1) {
+        socket.send(
+          `{"messageType": "${SocketConstants.Message.GET_ROOM_MEMBER_LIST}", "roomId": "${roomId}"}`
+        );
+      }
     } else {
       history.push('/main');
     }
-  }, [history]);
+  }, [history, socket, isConnection]);
 
   return (
     <div className={styles.wrapper}>
@@ -54,11 +90,15 @@ const ChatPage = () => {
       </div>
       <div className={styles.chat_body}>
         <div className={`${styles.chat_info} ${isChatInfo ? styles.on : ''}`}>
-          <ChatUserList />
+          <ChatUserList userList={userList} />
           <div className={styles.chat_info_footer}>
             <h3>
               Room Code{' '}
-              <i className={`far fa-copy ${styles.chat_info_footer_copy}`} title="code copy"></i>
+              <i
+                className={`far fa-copy ${styles.chat_info_footer_copy}`}
+                title="code copy"
+                onClick={onClickClipBoard}
+              ></i>
             </h3>
             <div>{roomCode}</div>
           </div>
@@ -75,6 +115,9 @@ const ChatPage = () => {
           </div>
         </div>
       </div>
+      {isToast && (
+        <ToastAlarm text="Clipboard copy complete" duration={2000} onClose={closeToast} />
+      )}
     </div>
   );
 };

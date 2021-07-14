@@ -1,13 +1,16 @@
 import ChatUserItem from '../chatUserItem';
+import { UserInfo } from 'types/chat';
 import styles from './style.module.css';
 
-const userDummy = ['김영후이', '이현규0808', '임프리잉'];
+interface ChatUserListProps {
+  userList: UserInfo[];
+}
 
-const ChatUserList = () => {
+const ChatUserList = ({ userList }: ChatUserListProps) => {
   return (
     <ul className={styles.info_body}>
-      {userDummy.map((user) => (
-        <ChatUserItem name={user} />
+      {userList.map((user) => (
+        <ChatUserItem user={user} />
       ))}
     </ul>
   );
