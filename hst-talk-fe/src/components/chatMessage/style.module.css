@@ -11,13 +11,21 @@
   margin-bottom: 5px;
 }
 
+.chat_message_center h4 {
+  font-size: 1.8vh;
+  font-weight: bolder;
+  color: #30343d;
+  margin-bottom: 5px;
+}
+
 .chat_message_center span {
-  font-size: 1.7vh;
+  font-size: 1.5vh;
   color: #30343d;
 }
 
 .chat_message_left {
   text-align: left;
+  margin-bottom: 2px;
 }
 
 .chat_message_right {

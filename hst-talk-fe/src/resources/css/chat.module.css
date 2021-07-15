@@ -122,12 +122,14 @@
 .chat_box_body {
   width: 80%;
   height: 80vh;
+  overflow: scroll;
 }
 
 @media screen and (max-width: 500px) {
   .chat_box_body {
     width: 95%;
     height: 80vh;
+    overflow: scroll;
   }
 }
 

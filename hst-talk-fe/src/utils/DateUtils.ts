@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 const DateUtils = {
-  getDate: (format: string = 'YYYY-MM-DD'): string => {
-    return moment().format(format);
+  getDate: (format: string = 'YYYY-MM-DD', strDate?: string): string => {
+    return moment(strDate ? strDate : null).format(format);
   },
 };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSocket from 'hooks/useSocket';
 import SocketConstants from 'constants/SocketConstants';
@@ -11,8 +11,6 @@ const MainPage = () => {
   const history = useHistory();
 
   const onClickCreateRoom = () => {
-    console.log(`{"messageType": "${SocketConstants.Message.CREATE_ROOM}"}`);
-
     socket.send(`{ "messageType": "CREATE_ROOM" }`);
   };
 
@@ -43,7 +41,7 @@ const MainPage = () => {
         break;
     }
 
-    history.push('chatting');
+    history.push('/chatting');
   };
 
   return (

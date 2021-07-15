@@ -1,8 +1,8 @@
-import { UserInfo } from 'types/chat';
+import { User } from 'types/user';
 import styles from './style.module.css';
 
 interface ChatUserItemProps {
-  user: UserInfo;
+  user: User;
 }
 
 const ChatUserItem = ({ user }: ChatUserItemProps) => {

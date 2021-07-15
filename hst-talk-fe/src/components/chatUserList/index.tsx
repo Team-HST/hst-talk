@@ -1,16 +1,16 @@
 import ChatUserItem from '../chatUserItem';
-import { UserInfo } from 'types/chat';
+import { User } from 'types/user';
 import styles from './style.module.css';
 
 interface ChatUserListProps {
-  userList: UserInfo[];
+  userList: User[];
 }
 
 const ChatUserList = ({ userList }: ChatUserListProps) => {
   return (
     <ul className={styles.info_body}>
       {userList.map((user) => (
-        <ChatUserItem user={user} />
+        <ChatUserItem key={user.id} user={user} />
       ))}
     </ul>
   );

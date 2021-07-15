@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSocket from 'hooks/useSocket';
-import { UserInfo } from 'types/chat';
+import useInput from 'hooks/useInput';
+import { User } from 'types/user';
+import { Chat } from 'types/chat';
 
 import ChatUserList from 'components/chatUserList';
 import ChatMessage from 'components/chatMessage';
@@ -10,28 +12,19 @@ import ToastAlarm from 'components/toastAlarm';
 import styles from 'resources/css/chat.module.css';
 import sendIcon from 'resources/images/send.png';
 
-const chatMessageDummy = [
-  { type: 'center' },
-  { type: 'left', name: 'jemmy', message: 'hello my name' },
-  { type: 'right', name: 'sancho', message: 'ohh hi' },
-];
-
-// TODO: 뒤로가기 시 처리
 const ChatPage = () => {
   const { socket, isConnection } = useSocket();
   const history = useHistory();
+  const chatBodyEl = useRef<HTMLDivElement>(null);
+  const [message, setMessage, changeMessage] = useInput<string>('');
+  const [chatList, setChatList] = useState<Chat[]>([]);
   const [isChatInfo, setIsChatInfo] = useState<boolean>(true);
   const [roomCode, setRoomCode] = useState<string>('');
-  const [userList, setUserList] = useState<UserInfo[]>([]);
+  const [userList, setUserList] = useState<User[]>([]);
   const [isToast, setIsToast] = useState<boolean>(false);
 
   const onClickChatInfo = () => {
     setIsChatInfo(!isChatInfo);
-  };
-
-  const onClickClose = () => {
-    sessionStorage.removeItem('roomId');
-    history.push('/main');
   };
 
   // 룸 코드 클립보드 복사
@@ -44,14 +37,39 @@ const ChatPage = () => {
     setIsToast(false);
   };
 
-  socket.onmessage = (event: MessageEvent<any>) => {
-    const { messageType, roomId, payload } = JSON.parse(event.data);
+  const onClickClose = () => {
+    socket.send(`{"messageType": "LEAVE_ROOM", "roomId": "${roomCode}"}`);
 
-    console.log('Type: ', messageType, 'Payload: ', payload);
+    history.push('/main');
+  };
+
+  const onKeypress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      // 닉네임전달 및 소켓 연결 처리
+      socket.send(`{"messageType": "CHAT", "roomId": "${roomCode}", "payload": "${message}"}`);
+
+      changeMessage('');
+    }
+  };
+
+  socket.onmessage = (event: MessageEvent<any>) => {
+    const { messageType, payload } = JSON.parse(event.data);
+
     switch (messageType) {
       case SocketConstants.Message.GET_ROOM_MEMBER_LIST:
-        console.log('get Room');
         setUserList(payload.participants);
+        break;
+      case SocketConstants.Message.CHAT:
+        const type = payload.senderNickname === 'SYSTEM' ? 'SYSTEM' : 'USER';
+        const message: Chat = {
+          type,
+          message: payload.message,
+          me: payload.me,
+          senderNickname: payload.senderNickname,
+          sendAt: payload.sendAt,
+        };
+
+        setChatList((state) => state.concat([message]));
         break;
       case SocketConstants.Message.SYSTEM_ERROR:
         if (payload.indexOf('Can not find room') > -1) {
@@ -77,6 +95,23 @@ const ChatPage = () => {
       history.push('/main');
     }
   }, [history, socket, isConnection]);
+
+  useEffect(() => {
+    if (chatBodyEl.current) {
+      const { scrollHeight, clientHeight } = chatBodyEl.current;
+      chatBodyEl.current.scrollTop = scrollHeight - clientHeight;
+    }
+  }, [chatList]);
+
+  useEffect(() => {
+    const enterMessage: Chat = { type: 'ENTER' };
+
+    setChatList((state) => state.concat([enterMessage]));
+
+    return () => {
+      sessionStorage.removeItem('roomId');
+    };
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -104,13 +139,19 @@ const ChatPage = () => {
           </div>
         </div>
         <div className={styles.chat_box}>
-          <div className={styles.chat_box_body}>
-            {chatMessageDummy.map((message) => (
-              <ChatMessage chat={message} />
+          <div className={styles.chat_box_body} ref={chatBodyEl}>
+            {chatList.map((chat, index) => (
+              <ChatMessage key={index} chat={chat} />
             ))}
           </div>
           <div className={styles.chat_box_input}>
-            <input type="text" placeholder="Ender Message" />
+            <input
+              type="text"
+              value={message}
+              onChange={setMessage}
+              onKeyPress={onKeypress}
+              placeholder="Ender Message"
+            />
             <img src={sendIcon} alt="전송(send)" />
           </div>
         </div>
