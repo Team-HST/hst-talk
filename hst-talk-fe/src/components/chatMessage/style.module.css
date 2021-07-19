@@ -25,11 +25,12 @@
 
 .chat_message_left {
   text-align: left;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
 }
 
 .chat_message_right {
   text-align: right;
+  margin-bottom: 5px;
 }
 
 .chat_message_user h3 {

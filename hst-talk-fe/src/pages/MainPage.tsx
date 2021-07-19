@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSocket from 'hooks/useSocket';
 import SocketConstants from 'constants/SocketConstants';

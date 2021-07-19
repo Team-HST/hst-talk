@@ -22,7 +22,7 @@ const ChatMessage = ({ chat }: ChatMessageProps) => {
     );
   } else {
     return (
-      <div className={chat.me ? styles.chat_message_left : styles.chat_message_right}>
+      <div className={chat.me ? styles.chat_message_right : styles.chat_message_left}>
         <div className={styles.chat_message_user}>
           <h3>{chat.senderNickname}</h3>
           <span>{DataUtils.getDate('YYYY-MM-DD HH:mm:ss', chat.sendAt)}</span>
