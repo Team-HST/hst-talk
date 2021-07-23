@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import useSocket from 'hooks/useSocket';
 import SocketConstants from 'constants/SocketConstants';
 import EnderModal from 'components/enderModal';
-import styles from 'resources/css/home.module.css';
+import SocketUtils from 'utils/SocketUtils';
+import styles from 'resources/css/main.module.css';
 
 const MainPage = () => {
   const [isCreateRoom, setIsCreateRoom] = useState<boolean>(false);
@@ -11,7 +12,7 @@ const MainPage = () => {
   const history = useHistory();
 
   const onClickCreateRoom = () => {
-    socket.send(`{ "messageType": "CREATE_ROOM" }`);
+    socket.send(SocketUtils.getSendMessage(SocketConstants.Protocol.CREATE_ROOM));
   };
 
   const onClickEnterRoom = () => {
@@ -24,7 +25,7 @@ const MainPage = () => {
 
   const enterRoom = (roomId: string) => {
     // 채팅방 입장
-    socket.send(`{ "messageType": "${SocketConstants.Message.ENTER_ROOM}", "roomId": "${roomId}"}`);
+    socket.send(SocketUtils.getSendMessage(SocketConstants.Protocol.ENTER_ROOM, roomId));
     sessionStorage.setItem('roomId', roomId);
   };
 
@@ -32,11 +33,11 @@ const MainPage = () => {
     const { messageType, roomId } = JSON.parse(event.data);
 
     switch (messageType) {
-      case SocketConstants.Message.SYSTEM_ERROR:
+      case SocketConstants.Protocol.SYSTEM_ERROR:
         alert('생성되지 않은 방 코드입니다.');
         sessionStorage.removeItem('roomId');
         return;
-      case SocketConstants.Message.CREATE_ROOM:
+      case SocketConstants.Protocol.CREATE_ROOM:
         sessionStorage.setItem('roomId', roomId);
         break;
     }

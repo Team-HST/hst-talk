@@ -25,16 +25,16 @@
 
 .chat_message_left {
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .chat_message_right {
   text-align: right;
-  margin-bottom: 5px;
+  margin-bottom: 17px;
 }
 
 .chat_message_user h3 {
-  font-size: 2vh;
+  font-size: 1.55vh;
   font-weight: bold;
   display: inline;
 }

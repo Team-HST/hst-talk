@@ -7,7 +7,7 @@ type SocketContextType = {
   isConnection: boolean;
 };
 
-const URL = 'ws://localhost:8000/ws/chat';
+const URL = `ws://${process.env.REACT_APP_WEB_SOCKET_IP}:${process.env.REACT_APP_WEB_SOCKET_PORT}/ws/chat`;
 const socket = new WebSocket(URL);
 export let SocketContext = createContext<SocketContextType>({ socket, isConnection: false });
 
