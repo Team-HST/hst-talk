@@ -37,14 +37,13 @@ public class LeaveRoomAction implements Action, RoomManagerAware, ConnectedUserP
 		String ownerId = room.getRoomOwner().getSession().getId();
 
 		room.leave(user);
-		pool.remove(session);
 
 		RoomMemberListResponse roomMemberListResponse =
 				RoomMemberListResponse.of(room.getParticipants().stream().map(e -> e.toResponse(ownerId)).collect(Collectors.toList()));
 
 		// 해당 방에 노티
+		String chatMessage = String.format("%s님이 퇴장하셨습니다ㅠㅠ", user.getNickname());
 		for (ChatUser participant : room.getParticipants()) {
-			String chatMessage = String.format("%s님이 퇴장하셨습니다ㅠㅠ", user.getNickname());
 			ChatResponse response = ChatResponse.of("SYSTEM", chatMessage, false);
 			TextMessage responseProtocol =
 					MessageProtocol.of(MessageType.CHAT, protocol.getRoomId(), response).toTextMessage();
