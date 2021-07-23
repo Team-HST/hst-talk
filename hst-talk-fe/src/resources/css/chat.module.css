@@ -125,6 +125,10 @@
   overflow: scroll;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 @media screen and (max-width: 500px) {
   .chat_box_body {
     width: 95%;
@@ -153,4 +157,5 @@
 .chat_box_input img {
   width: 35px;
   margin-left: 5px;
+  cursor: pointer;
 }

@@ -1,41 +1,48 @@
 .wrapper {
   position: absolute;
-  display: flex;
-  flex-wrap: wrap;
+  background-color: #30343d;
   width: 100%;
   height: 100%;
 }
 
-@media screen and (max-width: 500px) {
-  .wrapper {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-  }
+.banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 98%;
 }
 
-.create_room {
-  background-color: rgb(56, 172, 250);
-  flex-grow: 1;
+.banner h1 {
+  font-size: 8vh;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  position: relative;
+  top: 5%;
+  font-size: 2vh;
+  font-weight: 350;
+  color: white;
+  text-align: center;
+}
+
+.title b {
+  font-weight: 900;
+}
+
+.nickname_input {
+  position: relative;
+  bottom: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3.5vh;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
 }
 
-.enter_room {
-  background-color: rgb(19, 121, 116);
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3.5vh;
+/* .nickname_input i {
   color: white;
-  font-weight: bold;
   cursor: pointer;
-}
+} */

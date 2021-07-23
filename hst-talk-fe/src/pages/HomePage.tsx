@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import NicknameInput from 'components/nicknameInput';
-import styles from 'resources/css/main.module.css';
+import styles from 'resources/css/home.module.css';
 
 const HomePage = () => {
   useEffect(() => {

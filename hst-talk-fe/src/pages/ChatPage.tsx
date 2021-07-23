@@ -2,8 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSocket from 'hooks/useSocket';
 import useInput from 'hooks/useInput';
+import SocketUtils from 'utils/SocketUtils';
 import { User } from 'types/user';
 import { Chat } from 'types/chat';
+import copy from 'copy-to-clipboard';
 
 import ChatUserList from 'components/chatUserList';
 import ChatMessage from 'components/chatMessage';
@@ -29,8 +31,8 @@ const ChatPage = () => {
 
   // 룸 코드 클립보드 복사
   const onClickClipBoard = () => {
-    navigator.clipboard.writeText(roomCode);
     setIsToast(true);
+    copy(roomCode);
   };
 
   const closeToast = () => {
@@ -38,7 +40,7 @@ const ChatPage = () => {
   };
 
   const onClickClose = () => {
-    socket.send(`{"messageType": "LEAVE_ROOM", "roomId": "${roomCode}"}`);
+    socket.send(SocketUtils.getSendMessage(SocketConstants.Protocol.LEAVE_ROOM, roomCode));
 
     history.push('/main');
   };
@@ -46,20 +48,26 @@ const ChatPage = () => {
   const onKeypress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       // 닉네임전달 및 소켓 연결 처리
-      socket.send(`{"messageType": "CHAT", "roomId": "${roomCode}", "payload": "${message}"}`);
+      socket.send(SocketUtils.getSendMessage(SocketConstants.Protocol.CHAT, roomCode, message));
 
       changeMessage('');
     }
+  };
+
+  const onClickSendMessage = () => {
+    socket.send(SocketUtils.getSendMessage(SocketConstants.Protocol.CHAT, roomCode, message));
+
+    changeMessage('');
   };
 
   socket.onmessage = (event: MessageEvent<any>) => {
     const { messageType, payload } = JSON.parse(event.data);
 
     switch (messageType) {
-      case SocketConstants.Message.GET_ROOM_MEMBER_LIST:
+      case SocketConstants.Protocol.GET_ROOM_MEMBER_LIST:
         setUserList(payload.participants);
         break;
-      case SocketConstants.Message.CHAT:
+      case SocketConstants.Protocol.CHAT:
         const type = payload.senderNickname === 'SYSTEM' ? 'SYSTEM' : 'USER';
         const message: Chat = {
           type,
@@ -71,7 +79,7 @@ const ChatPage = () => {
 
         setChatList((state) => state.concat([message]));
         break;
-      case SocketConstants.Message.SYSTEM_ERROR:
+      case SocketConstants.Protocol.SYSTEM_ERROR:
         if (payload.indexOf('Can not find room') > -1) {
           alert('이미 종료 된 방 정보입니다.');
           history.push('/main');
@@ -88,7 +96,7 @@ const ChatPage = () => {
 
       if (socket.readyState === 1) {
         socket.send(
-          `{"messageType": "${SocketConstants.Message.GET_ROOM_MEMBER_LIST}", "roomId": "${roomId}"}`
+          SocketUtils.getSendMessage(SocketConstants.Protocol.GET_ROOM_MEMBER_LIST, roomId)
         );
       }
     } else {
@@ -152,7 +160,7 @@ const ChatPage = () => {
               onKeyPress={onKeypress}
               placeholder="Ender Message"
             />
-            <img src={sendIcon} alt="전송(send)" />
+            <img src={sendIcon} onClick={onClickSendMessage} alt="전송(send)" />
           </div>
         </div>
       </div>
