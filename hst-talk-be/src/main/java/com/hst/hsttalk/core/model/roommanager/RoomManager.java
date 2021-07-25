@@ -28,9 +28,15 @@ public interface RoomManager {
 	/**
 	 * Get chat room
 	 *
-	 * @param roomId roomId
+	 * @param roomId the roomId
 	 * @return chat room
 	 */
 	ChatRoom getRoom(String roomId);
 
+	/**
+	 * Destroy empty room
+	 *
+	 * @param roomId the roomId
+	 */
+	void destroyRoom(String roomId);
 }

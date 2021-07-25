@@ -40,4 +40,8 @@ public class InMemoryRoomManager implements RoomManager {
 		return RandomUtils.randomString(ROOM_ID_LENGTH);
 	}
 
+	@Override
+	public void destroyRoom(String roomId) {
+		chatRoomContainer.remove(roomId);
+	}
 }

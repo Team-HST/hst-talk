@@ -13,7 +13,6 @@ import com.hst.hsttalk.core.model.user.ChatUser;
 import com.hst.hsttalk.core.model.user.ConnectedUserPool;
 import com.hst.hsttalk.core.model.user.ConnectedUserPoolAware;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.stream.Collectors;
@@ -39,19 +38,12 @@ public class EnterRoomAction implements Action, RoomManagerAware, ConnectedUserP
 		session.sendMessage(MessageProtocol.of(MessageType.ENTER_ROOM, room.getRoomId(),
 				room.getParticipants().stream().map(e -> e.toResponse(ownerId)).collect(Collectors.toList())).toTextMessage());
 
-		RoomMemberListResponse roomMemberListResponse =
-				RoomMemberListResponse.of(room.getParticipants().stream().map(e -> e.toResponse(ownerId)).collect(Collectors.toList()));
-
-		// 해당 방에 노티
-		for (ChatUser participant : room.getParticipants()) {
-			String chatMessage = String.format("%s님이 입장하셨습니다^^", user.getNickname());
-			ChatResponse response = ChatResponse.of("SYSTEM", chatMessage, false);
-			TextMessage responseProtocol =
-					MessageProtocol.of(MessageType.CHAT, protocol.getRoomId(), response).toTextMessage();
-			participant.getSession().sendMessage(responseProtocol);
-			participant.getSession().sendMessage(MessageProtocol.of(MessageType.GET_ROOM_MEMBER_LIST, roomId,
-					roomMemberListResponse).toTextMessage());
-		}
+		MessageProtocol chatProtocol =
+				MessageProtocol.builder().messageType(MessageType.CHAT).roomId(roomId).payload(ChatResponse.of("SYSTEM"
+						, String.format("%s님이 퇴장하셨습니다ㅠㅠ", user.getNickname()), false)).build();
+		MessageProtocol roomMemberRefreshProtocol =
+				MessageProtocol.builder().messageType(MessageType.GET_ROOM_MEMBER_LIST).roomId(roomId).payload(RoomMemberListResponse.from(room)).build();
+		room.broadcast(chatProtocol, roomMemberRefreshProtocol);
 	}
 
 	@Override
