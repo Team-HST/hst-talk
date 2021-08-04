@@ -46,5 +46,6 @@
 
 .chat_message {
   margin-top: 10px;
+  font-size: 2vh;
   word-break: break-all;
 }

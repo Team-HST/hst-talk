@@ -10,6 +10,10 @@ function App() {
     <>
       <Helmet>
         <title>HST TALK</title>
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, user-scalable=no, maximum-scale=1, width=device-width"
+        />
       </Helmet>
       <Switch>
         <Route exact path="/" component={HomePage}></Route>
