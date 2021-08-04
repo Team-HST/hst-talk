@@ -2,9 +2,7 @@ package com.hst.hsttalk.core.model.messaging;
 
 import com.hst.hsttalk.core.model.type.MessageType;
 import com.hst.hsttalk.utils.JsonUtils;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.socket.TextMessage;
 
 /**
@@ -13,6 +11,8 @@ import org.springframework.web.socket.TextMessage;
 @Getter
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageProtocol {
 	private MessageType messageType;
 	private String roomId;
