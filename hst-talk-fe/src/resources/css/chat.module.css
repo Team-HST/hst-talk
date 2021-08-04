@@ -159,3 +159,21 @@
   margin-left: 5px;
   cursor: pointer;
 }
+
+@media screen and (max-width: 500px) {
+  .chat_box_input input {
+    width: 80%;
+    height: 4vh;
+    font-size: 2vh;
+    border: 1px solid #30343d;
+    border-radius: 10px;
+    padding-left: 10px;
+  }
+
+  .chat_box_input img {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}
