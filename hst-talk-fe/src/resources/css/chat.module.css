@@ -43,6 +43,10 @@
   margin: 10px;
 }
 
+.chat_alarm {
+  margin: 10px;
+}
+
 @media screen and (min-width: 500px) {
   .chat_info {
     display: flex;
@@ -176,4 +180,8 @@
     margin-left: 5px;
     cursor: pointer;
   }
+}
+
+.alarm {
+  margin-right: 50px;
 }
