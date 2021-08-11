@@ -24,7 +24,7 @@ const ChatPage = () => {
   const [roomCode, setRoomCode] = useState<string>('');
   const [userList, setUserList] = useState<User[]>([]);
   const [isToast, setIsToast] = useState<boolean>(false);
-  const [isAlarm, setIsAlarm] = useState<boolean>(true);
+  // const [isAlarm, setIsAlarm] = useState<boolean>(true);
 
   const onClickChatInfo = () => {
     setIsChatInfo(!isChatInfo);
@@ -40,9 +40,9 @@ const ChatPage = () => {
     setIsToast(false);
   };
 
-  const onChangeAlarm = () => {
-    setIsAlarm(!isAlarm);
-  };
+  // const onChangeAlarm = () => {
+  //   setIsAlarm(!isAlarm);
+  // };
 
   const onClickClose = () => {
     socket.send(SocketUtils.getSendMessage(SocketConstants.Protocol.LEAVE_ROOM, roomCode));
@@ -84,20 +84,20 @@ const ChatPage = () => {
 
         setChatList((state) => state.concat([message]));
 
-        if (!document.hasFocus() && isAlarm) {
-          let notification: Notification | null = null;
-          if (!message.me) {
-            notification = new Notification('hst-talk 알림', {
-              body: `${message.senderNickname} - ${message.message}`,
-            });
-          }
+        // if (!document.hasFocus() && isAlarm) {
+        //   let notification: Notification | null = null;
+        //   if (!message.me) {
+        //     notification = new Notification('hst-talk 알림', {
+        //       body: `${message.senderNickname} - ${message.message}`,
+        //     });
+        //   }
 
-          if (notification) {
-            notification.onclick = () => {
-              notification?.close();
-            };
-          }
-        }
+        //   if (notification) {
+        //     notification.onclick = () => {
+        //       notification?.close();
+        //     };
+        //   }
+        // }
 
         break;
       case SocketConstants.Protocol.SYSTEM_ERROR:
@@ -148,13 +148,13 @@ const ChatPage = () => {
         <h2>
           <i className="fas fa-align-justify" onClick={onClickChatInfo}></i> HST <span>Talk</span>
         </h2>
-        <div className={styles.chat_alarm} onClick={onChangeAlarm}>
+        {/* <div className={styles.chat_alarm} onClick={onChangeAlarm}>
           {isAlarm ? (
             <i className="fas fa-bell fa-lg"></i>
           ) : (
             <i className="fas fa-bell-slash fa-lg"></i>
           )}
-        </div>
+        </div> */}
         <div className={styles.chat_end} onClick={onClickClose}>
           <i className="fas fa-door-open fa-lg"></i> Close
         </div>
