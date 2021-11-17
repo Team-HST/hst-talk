@@ -40,7 +40,7 @@ public class EnterRoomAction implements Action, RoomManagerAware, ConnectedUserP
 
 		MessageProtocol chatProtocol =
 				MessageProtocol.builder().messageType(MessageType.CHAT).roomId(roomId).payload(ChatResponse.of("SYSTEM"
-						, String.format("%s님이 퇴장하셨습니다ㅠㅠ", user.getNickname()), false)).build();
+						, String.format("%s님이 입장하셨습니다ㅠㅠ", user.getNickname()), false)).build();
 		MessageProtocol roomMemberRefreshProtocol =
 				MessageProtocol.builder().messageType(MessageType.GET_ROOM_MEMBER_LIST).roomId(roomId).payload(RoomMemberListResponse.from(room)).build();
 		room.broadcast(chatProtocol, roomMemberRefreshProtocol);
