@@ -2,7 +2,7 @@
 Simple Messager for HST Team
 
 ## Demo
-http://ec2-3-34-31-147.ap-northeast-2.compute.amazonaws.com/
+http://133.186.151.21/
 
 ## \# Main functions
 #### 1. Enter your nickname
@@ -24,5 +24,5 @@ http://ec2-3-34-31-147.ap-northeast-2.compute.amazonaws.com/
 - React + WebSocket API
 
 ## \# CI & CD
-- Manually build and deploy
+- Jenkins + NHN Cloud Deploy
 
